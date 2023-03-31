@@ -1,0 +1,653 @@
+openapi: 3.0.3
+info:
+  title: Checkers API
+  version: 1.0.0
+  description: Checkers Online
+paths:
+  /games/:
+    get:
+      operationId: games_list
+      parameters:
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - games
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Games'
+          description: ''
+    post:
+      operationId: games_create
+      tags:
+      - games
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Games'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Games'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Games'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Games'
+          description: ''
+  /games/{id}/:
+    get:
+      operationId: games_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this games.
+        required: true
+      tags:
+      - games
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Games'
+          description: ''
+    put:
+      operationId: games_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this games.
+        required: true
+      tags:
+      - games
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Games'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Games'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Games'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Games'
+          description: ''
+    patch:
+      operationId: games_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this games.
+        required: true
+      tags:
+      - games
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGames'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGames'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGames'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Games'
+          description: ''
+    delete:
+      operationId: games_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this games.
+        required: true
+      tags:
+      - games
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /login/:
+    post:
+      operationId: login_create
+      tags:
+      - login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+  /logout/:
+    post:
+      operationId: logout_create
+      description: |-
+        Takes a token and blacklists it. Must be used with the
+        `rest_framework_simplejwt.token_blacklist` app installed.
+      tags:
+      - logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklist'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenBlacklist'
+          description: ''
+  /profile/:
+    get:
+      operationId: profile_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - profile
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+          description: ''
+  /profile/{id}/:
+    get:
+      operationId: profile_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this profile.
+        required: true
+      tags:
+      - profile
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    patch:
+      operationId: profile_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this profile.
+        required: true
+      tags:
+      - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+  /refresh-token/:
+    post:
+      operationId: refresh_token_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - refresh-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /registration/:
+    post:
+      operationId: registration_create
+      tags:
+      - registration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Registration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Registration'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+          description: ''
+  /user/:
+    get:
+      operationId: user_retrieve
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRetrieveUpdate'
+          description: ''
+    put:
+      operationId: user_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRetrieveUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRetrieveUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRetrieveUpdate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRetrieveUpdate'
+          description: ''
+    patch:
+      operationId: user_partial_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRetrieveUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRetrieveUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRetrieveUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRetrieveUpdate'
+          description: ''
+    delete:
+      operationId: user_destroy
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Games:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username_1:
+          type: string
+          maxLength: 16
+        username_2:
+          type: string
+          maxLength: 16
+        start_at:
+          type: string
+          format: date-time
+          readOnly: true
+        finish_at:
+          type: string
+          format: date-time
+          nullable: true
+        moves:
+          type: object
+          additionalProperties: {}
+      required:
+      - id
+      - start_at
+      - username_1
+      - username_2
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          maxLength: 255
+        access_token:
+          type: string
+          readOnly: true
+          maxLength: 255
+        refresh_token:
+          type: string
+          readOnly: true
+          maxLength: 255
+      required:
+      - access_token
+      - email
+      - id
+      - password
+      - refresh_token
+      - username
+    PatchedGames:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username_1:
+          type: string
+          maxLength: 16
+        username_2:
+          type: string
+          maxLength: 16
+        start_at:
+          type: string
+          format: date-time
+          readOnly: true
+        finish_at:
+          type: string
+          format: date-time
+          nullable: true
+        moves:
+          type: object
+          additionalProperties: {}
+    PatchedProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        wins:
+          type: integer
+          maximum: 65535
+          minimum: 0
+        games:
+          type: integer
+          maximum: 65535
+          minimum: 0
+        rating:
+          type: integer
+          maximum: 65535
+          minimum: 0
+    PatchedUserRetrieveUpdate:
+      type: object
+      description: Осуществляет сериализацию и десериализацию объектов User.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 32
+        username:
+          type: string
+          maxLength: 16
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 16
+          minLength: 8
+        profile:
+          type: string
+          readOnly: true
+    Profile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        wins:
+          type: integer
+          maximum: 65535
+          minimum: 0
+        games:
+          type: integer
+          maximum: 65535
+          minimum: 0
+        rating:
+          type: integer
+          maximum: 65535
+          minimum: 0
+      required:
+      - id
+      - username
+    Registration:
+      type: object
+      description: |-
+        Creates a new user.
+        Email, username, and password are required.
+        Returns a JSON web token.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 32
+        username:
+          type: string
+          maxLength: 16
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 16
+          minLength: 4
+        password2:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - id
+      - password
+      - password2
+      - username
+    TokenBlacklist:
+      type: object
+      properties:
+        refresh:
+          type: string
+      required:
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    UserRetrieveUpdate:
+      type: object
+      description: Осуществляет сериализацию и десериализацию объектов User.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 32
+        username:
+          type: string
+          maxLength: 16
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 16
+          minLength: 8
+        profile:
+          type: string
+          readOnly: true
+      required:
+      - email
+      - id
+      - password
+      - profile
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "J"
