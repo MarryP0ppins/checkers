@@ -2,7 +2,7 @@
 
 # Авторы:
 
-- Гордеев Н.А. (ИУ5-64Б) - Backend
+- Гордеев Н.А. (ИУ5-64Б) - [Backend](https://github.com/MarryP0ppins/checkers-backend)
 - Федотова А.Д. (ИУ5-64Б) - Frontend
 - Стельмах Я.С. (ИУ5-64Б) - WebSocket
 
