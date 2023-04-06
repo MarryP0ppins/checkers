@@ -3,7 +3,7 @@
 # Авторы:
 
 - Гордеев Н.А. (ИУ5-64Б) - [Backend](https://github.com/MarryP0ppins/checkers-backend)
-- Федотова А.Д. (ИУ5-64Б) - Frontend
+- Федотова А.Д. (ИУ5-64Б) - [Frontend](https://github.com/MarryP0ppins/checkers-frontend)
 - Стельмах Я.С. (ИУ5-64Б) - WebSocket
 
 # [Макет Figma](https://www.figma.com/file/zrSN1SvIU7xgRsSb9SlLd8/Checkers-with-MUI)
