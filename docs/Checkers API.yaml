@@ -19,7 +19,7 @@ paths:
         schema:
           type: string
           enum:
-          - CREATE
+          - CREATED
           - FINISHED
           - IN_PROCESS
       tags:
@@ -54,6 +54,7 @@ paths:
         required: true
       security:
       - jwtAuth: []
+      - {}
       responses:
         '201':
           content:
@@ -107,6 +108,7 @@ paths:
               $ref: '#/components/schemas/PatchedGame'
       security:
       - jwtAuth: []
+      - {}
       responses:
         '200':
           content:
@@ -127,6 +129,7 @@ paths:
       - game
       security:
       - jwtAuth: []
+      - {}
       responses:
         '204':
           description: No response body
@@ -137,7 +140,7 @@ paths:
       - in: query
         name: checker_id
         schema:
-          type: number
+          type: integer
       - in: query
         name: game
         schema:
@@ -178,6 +181,7 @@ paths:
         required: true
       security:
       - jwtAuth: []
+      - {}
       responses:
         '201':
           content:
@@ -207,32 +211,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Move'
           description: ''
-    delete:
-      operationId: move_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this move.
-        required: true
-      tags:
-      - move
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
   /profile/:
     get:
       operationId: profile_list
       parameters:
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
       - name: search
         required: false
         in: query
@@ -490,23 +472,32 @@ components:
   schemas:
     Game:
       type: object
-      description: |-
-        user_1 = serializers.SerializerMethodField('_get_username_1')
-        user_2 = serializers.SerializerMethodField('_get_username_2')
-
-        def _get_username_1(self, data):
-            return f'{data.user_1.username}'
-
-        def _get_username_2(self, data):
-            return f'{data.user_2.username}'
       properties:
         id:
           type: integer
           readOnly: true
+        uuid:
+          type: string
+          maxLength: 36
         user_1:
           type: integer
         user_2:
           type: integer
+        user_1_turn:
+          type: boolean
+        user_1_win:
+          type: boolean
+          nullable: true
+        user_1_points:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+        user_2_points:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
         start_at:
           type: string
           format: date-time
@@ -523,7 +514,6 @@ components:
           nullable: true
       required:
       - id
-      - status
       - user_1
       - user_2
     Login:
@@ -569,41 +559,50 @@ components:
         user:
           type: integer
         checker_id:
-          type: string
-          format: decimal
-          pattern: ^-?\d{0,1}(?:\.\d{0,0})?$
-        new_position:
-          type: string
-          maxLength: 2
-        is_last_move:
-          type: boolean
+          type: integer
+          maximum: 65535
+          minimum: 0
+        new_positions:
+          type: object
+          additionalProperties: {}
+          nullable: true
         is_white:
+          type: boolean
+        is_king:
           type: boolean
       required:
       - checker_id
       - game
       - id
-      - new_position
       - user
     PatchedGame:
       type: object
-      description: |-
-        user_1 = serializers.SerializerMethodField('_get_username_1')
-        user_2 = serializers.SerializerMethodField('_get_username_2')
-
-        def _get_username_1(self, data):
-            return f'{data.user_1.username}'
-
-        def _get_username_2(self, data):
-            return f'{data.user_2.username}'
       properties:
         id:
           type: integer
           readOnly: true
+        uuid:
+          type: string
+          maxLength: 36
         user_1:
           type: integer
         user_2:
           type: integer
+        user_1_turn:
+          type: boolean
+        user_1_win:
+          type: boolean
+          nullable: true
+        user_1_points:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+        user_2_points:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
         start_at:
           type: string
           format: date-time
@@ -718,7 +717,7 @@ components:
       - username
     StatusEnum:
       enum:
-      - CREATE
+      - CREATED
       - IN_PROCESS
       - FINISHED
       type: string
