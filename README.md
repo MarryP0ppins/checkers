@@ -4,7 +4,7 @@
 
 - Гордеев Н.А. (ИУ5-64Б) - [Backend](https://github.com/MarryP0ppins/checkers-backend)
 - Федотова А.Д. (ИУ5-64Б) - [Frontend](https://github.com/MarryP0ppins/checkers-frontend)
-- Стельмах Я.С. (ИУ5-64Б) - WebSocket
+- Стельмах Я.С. (ИУ5-64Б) - [WebSocket](https://github.com/MarryP0ppins/checkers-ws)
 
 # [Макет Figma](https://www.figma.com/file/YjZWNZYTBbte1VBcSmNhb0/Checkers-with-MUI)
 
